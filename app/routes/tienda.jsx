@@ -1,7 +1,7 @@
 import { getGuitarras } from "~/models/guitrras.server"
 import { useLoaderData } from "@remix-run/react"
 import Guitarra from "~/components/guitarra"
-import styles from "../styles/guitarras.css" 
+import styles from "~/styles/guitarras.css" 
 
 export function meta(){
   return(
