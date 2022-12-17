@@ -25,7 +25,7 @@ export function meta({data}){
     }
     return{
         title: `GuitarLA - ${data.data[0].attributes.titulo}`,
-        description: `Guitarras, venta de guitarras, guitrra ${data.data[0].attributes.titulo}`
+        description: `Guitarras, venta de guitarras, guitarra ${data.data[0].attributes.titulo}`
     }
 }
 
