@@ -1,5 +1,5 @@
 import { getGuitarra } from "~/models/guitarras.server"
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useOutletContext } from "@remix-run/react";
 import { useState } from "react";
 
 export async function loader({params}){
@@ -29,6 +29,11 @@ export function meta({data}){
   }
 
 function Guitarra() {
+    const {agregarCarrito} = useOutletContext()
+    const [cantidad, setCantidad] = useState(0)
+    const guitarra = useLoaderData()
+    const { nombre, descripcion, precio, imagen} = guitarra.data[0].attributes
+
     const handleSubmit = e => {
         e.preventDefault()
         if(cantidad < 1){
@@ -42,11 +47,10 @@ function Guitarra() {
             precio,
             cantidad
         }
-        console.log(guitarraSeleccionada);
+        console.log(agregarCarrito(guitarraSeleccionada));
     }
-    const [cantidad, setCantidad] = useState(0)
-    const guitarra = useLoaderData()
-    const { nombre, descripcion, precio, imagen} = guitarra.data[0].attributes
+
+    
     return (
         <div className="guitarra">
             <img src={imagen.data.attributes.url} alt={`Imagen de la guitarra ${nombre}`} />
