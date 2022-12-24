@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { 
     Meta,
     Links,
@@ -49,7 +49,12 @@ export function meta(){
 }
 
 export default function App(){
-    const [carrito, setCarrito] = useState([])
+    const carritoLs = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('carrito')) ?? [] : null
+    const [carrito, setCarrito] = useState(carritoLs)
+
+    useEffect(() => {
+        localStorage.setItem('carrito', JSON.stringify(carrito))
+    }, [carrito])
     const agregarCarrito = guitarra => {
         if(carrito.some(guitarraState => guitarraState.id === guitarra.id)){
             // Iterar sobre el arreglo, e identificar el elemento duplicado
@@ -67,12 +72,28 @@ export default function App(){
             setCarrito([...carrito, guitarra])
         }
     }
+    const actualizarCantidad = guitarra => {
+        const carritoActualizado = carrito.map(guitarraState => {
+            if(guitarraState.id === guitarra.id){
+                guitarraState.cantidad = guitarra.cantidad
+            }
+            return guitarraState
+        })
+        setCarrito(carritoActualizado)
+    }
 
+    const eliminarGuitarra = id => {
+        const carritoAcutalizado = carrito.filter(guitarraState => guitarraState.id !== id)
+        setCarrito(carritoAcutalizado)
+    }
     return(
         <Document>
             <Outlet
                 context={{
-                    agregarCarrito
+                    agregarCarrito,
+                    carrito,
+                    actualizarCantidad,
+                    eliminarGuitarra
                 }}
             />
         </Document>
